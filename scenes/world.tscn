@@ -1,0 +1,74 @@
+[gd_scene load_steps=13 format=3 uid="uid://6e6jgcbcoh7l"]
+
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_o435r"]
+[ext_resource type="Texture2D" uid="uid://ccx8c34sejpd8" path="res://assets/terrain/wall (2).png" id="2_q64b0"]
+[ext_resource type="Texture2D" uid="uid://brspytuvxxchn" path="res://assets/terrain/wall (3).png" id="3_xg5gd"]
+[ext_resource type="Texture2D" uid="uid://bvu6074pc06r2" path="res://assets/terrain/wall (4).png" id="4_bh2cu"]
+[ext_resource type="Texture2D" uid="uid://b6gond6eukwne" path="res://assets/terrain/wall (5).png" id="5_21j6d"]
+[ext_resource type="Texture2D" uid="uid://db5x7w67alhny" path="res://assets/terrain/wall (6).png" id="6_11yf2"]
+[ext_resource type="Texture2D" uid="uid://dttsu7i6a8uc7" path="res://assets/terrain/wall.png" id="7_wylrb"]
+[ext_resource type="PackedScene" uid="uid://cp0s2hx1k0rhu" path="res://scenes/terrain.tscn" id="8_pe0mt"]
+[ext_resource type="PackedScene" uid="uid://bngd583qvtj23" path="res://scenes/player.tscn" id="9_5ndwm"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="10_4wo23"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_82gxb"]
+bg_color = Color(0, 0.631373, 0.964706, 1)
+
+[sub_resource type="Theme" id="Theme_e7rwt"]
+VSlider/styles/grabber_area = SubResource("StyleBoxFlat_82gxb")
+
+[node name="world" type="Node2D"]
+script = ExtResource("1_o435r")
+terrain_tiles = Array[CompressedTexture2D]([ExtResource("2_q64b0"), ExtResource("3_xg5gd"), ExtResource("4_bh2cu"), ExtResource("5_21j6d"), ExtResource("6_11yf2"), ExtResource("7_wylrb")])
+terrain_scene = ExtResource("8_pe0mt")
+
+[node name="player" parent="." node_paths=PackedStringArray("camera_node") groups=["PLAYER"] instance=ExtResource("9_5ndwm")]
+position = Vector2(960, 540)
+camera_node = NodePath("../Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
+scale = Vector2(0.25, 0.25)
+
+[node name="Control" type="Control" parent="Camera2D"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -3840.0
+offset_top = -2160.0
+offset_right = 3840.0
+offset_bottom = 2160.0
+script = ExtResource("10_4wo23")
+
+[node name="DepthLabel" type="Label" parent="Camera2D/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -154.5
+offset_top = 208.0
+offset_right = 154.5
+offset_bottom = 343.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 96
+text = "DEPTH"
+
+[node name="VSlider" type="VSlider" parent="Camera2D/Control"]
+layout_mode = 0
+offset_left = 208.0
+offset_top = 204.0
+offset_right = 224.0
+offset_bottom = 2124.0
+scale = Vector2(8, 1)
+theme = SubResource("Theme_e7rwt")
+value = 50.0
+editable = false
+scrollable = false
+tick_count = 2
+
+[node name="terrain_start_l" type="Node2D" parent="."]
+position = Vector2(125, 270)
+
+[node name="terrain_start_r" type="Node2D" parent="."]
+position = Vector2(1795, 270)
+
+[connection signal="update_depth" from="player" to="Camera2D/Control" method="_on_player_update_depth"]
