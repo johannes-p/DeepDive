@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://bngd583qvtj23"]
+
+[ext_resource type="Texture2D" uid="uid://bn2q7vu7wek4k" path="res://assets/player/arm_l.png" id="1_b0wee"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_ws1qp"]
+[ext_resource type="Texture2D" uid="uid://vu3wr57lgxy4" path="res://assets/player/leg_l.png" id="2_dhj4v"]
+[ext_resource type="Texture2D" uid="uid://bbyb0dgn2evw4" path="res://assets/player/Group 34.png" id="2_lap3l"]
+[ext_resource type="Texture2D" uid="uid://clp8ku0mxkc3x" path="res://assets/player/Group 35.png" id="3_xpc8l"]
+[ext_resource type="Texture2D" uid="uid://b57en88jnap41" path="res://assets/player/Vector 23.png" id="4_ug80q"]
+[ext_resource type="Texture2D" uid="uid://bdurmjrf6bnbg" path="res://assets/player/arm_r.png" id="5_dtack"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oq4ow"]
+radius = 99.9841
+height = 478.162
+
+[node name="player" type="CharacterBody2D"]
+scale = Vector2(0.25, 0.25)
+script = ExtResource("1_ws1qp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.24455
+shape = SubResource("CapsuleShape2D_oq4ow")
+
+[node name="torso" type="Node2D" parent="."]
+rotation = 0.604124
+
+[node name="arm_l" type="Node2D" parent="torso"]
+position = Vector2(87, -39)
+
+[node name="Sprite2D" type="Sprite2D" parent="torso/arm_l"]
+texture = ExtResource("1_b0wee")
+offset = Vector2(41, 86)
+
+[node name="leg_l" type="Node2D" parent="torso"]
+position = Vector2(-43, 78)
+
+[node name="Sprite2D" type="Sprite2D" parent="torso/leg_l"]
+texture = ExtResource("2_dhj4v")
+offset = Vector2(-110, 81)
+
+[node name="leg_r" type="Node2D" parent="torso"]
+position = Vector2(-72, 60)
+rotation = 0.351888
+
+[node name="Sprite2D" type="Sprite2D" parent="torso/leg_r"]
+texture = ExtResource("2_dhj4v")
+offset = Vector2(-109, 80)
+
+[node name="torsoSprite" type="Sprite2D" parent="torso"]
+texture = ExtResource("2_lap3l")
+
+[node name="head" type="Node2D" parent="torso"]
+position = Vector2(76, -96)
+
+[node name="Sprite2D" type="Sprite2D" parent="torso/head"]
+position = Vector2(16, -47.5)
+texture = ExtResource("3_xpc8l")
+
+[node name="mask" type="Node2D" parent="torso/head"]
+position = Vector2(41, -50.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="torso/head/mask"]
+texture = ExtResource("4_ug80q")
+
+[node name="arm_r" type="Node2D" parent="torso"]
+position = Vector2(9, -98)
+
+[node name="Sprite2D" type="Sprite2D" parent="torso/arm_r"]
+texture = ExtResource("5_dtack")
+offset = Vector2(97, 45)
