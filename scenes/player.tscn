@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bngd583qvtj23"]
+[gd_scene load_steps=18 format=3 uid="uid://bngd583qvtj23"]
 
 [ext_resource type="Texture2D" uid="uid://bn2q7vu7wek4k" path="res://assets/player/arm_l.png" id="1_b0wee"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_ws1qp"]
@@ -11,6 +11,142 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oq4ow"]
 radius = 99.9841
 height = 478.162
+
+[sub_resource type="Animation" id="Animation_7degj"]
+resource_name = "swim"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("torso/leg_l:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.436332, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("torso/leg_r:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.351888, -0.0837758, 0.351888]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("torso/arm_l:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.436332]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("torso/arm_r:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0472]
+}
+
+[sub_resource type="Animation" id="Animation_pvt6t"]
+resource_name = "idle"
+length = 6.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("torso/arm_l:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0872665, 0.0, 0.0872665, 0.0, -0.0872665]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("torso/arm_r:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.0872665, 0.0, -0.0872665, 0.0, 0.0872665]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("torso/leg_l:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2, 4, 6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0872665, -0.0872665, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("torso/leg_r:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2, 4, 6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.0872665, 0.0872665, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a8dpr"]
+_data = {
+"idle": SubResource("Animation_pvt6t"),
+"swim": SubResource("Animation_7degj")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_82gui"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ms1ta"]
+animation = &"swim"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5qdaj"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5oakr"]
+switch_mode = 1
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j4um6"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_dv2lo"]
+states/End/position = Vector2(743, 100)
+states/Start/position = Vector2(185, 100)
+states/idle/node = SubResource("AnimationNodeAnimation_82gui")
+states/idle/position = Vector2(376, 100)
+states/swim/node = SubResource("AnimationNodeAnimation_ms1ta")
+states/swim/position = Vector2(524, 100)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_5qdaj"), "idle", "swim", SubResource("AnimationNodeStateMachineTransition_5oakr"), "swim", "End", SubResource("AnimationNodeStateMachineTransition_j4um6")]
 
 [node name="player" type="CharacterBody2D"]
 scale = Vector2(0.25, 0.25)
@@ -25,6 +161,7 @@ rotation = 0.604124
 
 [node name="arm_l" type="Node2D" parent="torso"]
 position = Vector2(87, -39)
+rotation = 0.0289964
 
 [node name="Sprite2D" type="Sprite2D" parent="torso/arm_l"]
 texture = ExtResource("1_b0wee")
@@ -32,6 +169,7 @@ offset = Vector2(41, 86)
 
 [node name="leg_l" type="Node2D" parent="torso"]
 position = Vector2(-43, 78)
+rotation = -0.0582701
 
 [node name="Sprite2D" type="Sprite2D" parent="torso/leg_l"]
 texture = ExtResource("2_dhj4v")
@@ -39,7 +177,7 @@ offset = Vector2(-110, 81)
 
 [node name="leg_r" type="Node2D" parent="torso"]
 position = Vector2(-72, 60)
-rotation = 0.351888
+rotation = 0.0582701
 
 [node name="Sprite2D" type="Sprite2D" parent="torso/leg_r"]
 texture = ExtResource("2_dhj4v")
@@ -63,7 +201,17 @@ texture = ExtResource("4_ug80q")
 
 [node name="arm_r" type="Node2D" parent="torso"]
 position = Vector2(9, -98)
+rotation = -0.0289964
 
 [node name="Sprite2D" type="Sprite2D" parent="torso/arm_r"]
 texture = ExtResource("5_dtack")
 offset = Vector2(97, 45)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_a8dpr")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_dv2lo")
+anim_player = NodePath("../AnimationPlayer")

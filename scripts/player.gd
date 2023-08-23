@@ -14,7 +14,9 @@ func _physics_process(delta):
 		
 	if Input.is_action_pressed("move_forward"):
 		velocity = Vector2(1,0).rotated(rotation) * SPEED
+		$AnimationPlayer.current_animation = 'swim'
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, FRICTION)
+		$AnimationPlayer.current_animation = 'idle'
 
 	move_and_slide()
