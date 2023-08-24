@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://b177wpeg11v3v"]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_vnogd"]
+
+[sub_resource type="Gradient" id="Gradient_wmah2"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_uslhm"]
+gradient = SubResource("Gradient_wmah2")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_82gxb"]
+bg_color = Color(0, 0.631373, 0.964706, 1)
+
+[sub_resource type="Theme" id="Theme_mmpjw"]
+VSlider/icons/grabber_disabled = SubResource("GradientTexture1D_uslhm")
+VSlider/styles/grabber_area = SubResource("StyleBoxFlat_82gxb")
+
+[node name="hud" type="CanvasLayer"]
+script = ExtResource("1_vnogd")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="DepthLabel" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -154.5
+offset_right = 154.5
+offset_bottom = 135.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 96
+text = "DEPTH"
+horizontal_alignment = 1
+
+[node name="VSlider" type="VSlider" parent="Control"]
+layout_mode = 0
+offset_left = 208.0
+offset_top = 204.0
+offset_right = 224.0
+offset_bottom = 744.0
+scale = Vector2(3, 1)
+theme = SubResource("Theme_mmpjw")
+value = 50.0
+editable = false
+scrollable = false
+tick_count = 2

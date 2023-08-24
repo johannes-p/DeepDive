@@ -39,3 +39,7 @@ func _ready():
 		
 		add_child(left_instance)
 		add_child(right_instance)
+
+
+func _on_player_update_depth():
+	pass # Replace with function body.

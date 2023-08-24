@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 
 
 # Called when the node enters the scene tree for the first time.
@@ -12,4 +12,4 @@ func _process(delta):
 
 
 func _on_player_update_depth(depth):
-	$DepthLabel.text = str(depth) + 'm'
+	$Control/DepthLabel.text = str(depth) + 'm'
