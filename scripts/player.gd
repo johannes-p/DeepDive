@@ -10,6 +10,10 @@ const SPEED : float = 300.0
 const ROTATION_AMOUNT : int = 2
 const FRICTION : float = 0.015
 
+
+var recently_got_oxygen = false
+
+
 func _physics_process(delta):
 	if Input.is_action_pressed("move_right"):
 		rotation += ROTATION_AMOUNT * delta
@@ -25,7 +29,8 @@ func _physics_process(delta):
 
 	move_and_slide()
 	
-	camera_node.position.y = position.y
 	position.x = clamp(position.x, 0, screensize.x)
+	position.y = clamp(position.y, 0, INF)
+	camera_node.position.y = position.y
 	
 	emit_signal("update_depth", int((position.y / (270.0 / 1.80))))

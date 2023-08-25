@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2jh0vnincsf8"]
+
+[ext_resource type="Script" path="res://scripts/oxygen.gd" id="1_udrf3"]
+[ext_resource type="Texture2D" uid="uid://bldjubl33r1xs" path="res://assets/collectibles/oxygen.png" id="2_ws7yt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1bs6k"]
+radius = 34.0588
+
+[node name="oxygen" type="Area2D"]
+script = ExtResource("1_udrf3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-7.62939e-06, 7.62939e-06)
+scale = Vector2(0.283333, 0.283333)
+texture = ExtResource("2_ws7yt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1bs6k")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(4.6625, 4.4125)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited"]

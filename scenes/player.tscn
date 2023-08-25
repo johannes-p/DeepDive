@@ -161,7 +161,6 @@ rotation = 0.873707
 
 [node name="arm_l" type="Node2D" parent="torso"]
 position = Vector2(87, -39)
-rotation = 0.0289964
 
 [node name="Sprite2D" type="Sprite2D" parent="torso/arm_l"]
 texture = ExtResource("1_b0wee")
@@ -169,7 +168,6 @@ offset = Vector2(41, 86)
 
 [node name="leg_l" type="Node2D" parent="torso"]
 position = Vector2(-43, 78)
-rotation = -0.0582701
 
 [node name="Sprite2D" type="Sprite2D" parent="torso/leg_l"]
 texture = ExtResource("2_dhj4v")
@@ -177,7 +175,6 @@ offset = Vector2(-110, 81)
 
 [node name="leg_r" type="Node2D" parent="torso"]
 position = Vector2(-72, 60)
-rotation = 0.0582701
 
 [node name="Sprite2D" type="Sprite2D" parent="torso/leg_r"]
 texture = ExtResource("2_dhj4v")
@@ -201,7 +198,6 @@ texture = ExtResource("4_ug80q")
 
 [node name="arm_r" type="Node2D" parent="torso"]
 position = Vector2(9, -98)
-rotation = -0.0289964
 
 [node name="Sprite2D" type="Sprite2D" parent="torso/arm_r"]
 texture = ExtResource("5_dtack")
