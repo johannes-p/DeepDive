@@ -7,7 +7,7 @@ signal update_depth()
 @onready var screensize : Vector2 = DisplayServer.window_get_size()
 
 const SPEED : float = 300.0
-const ROTATION_AMOUNT : int = 2
+const ROTATION_AMOUNT : float = 0.03
 const FRICTION : float = 0.015
 
 
@@ -16,9 +16,9 @@ var recently_got_oxygen = false
 
 func _physics_process(delta):
 	if Input.is_action_pressed("move_right"):
-		rotation += ROTATION_AMOUNT * delta
+		rotation += ROTATION_AMOUNT
 	elif Input.is_action_pressed("move_left"):
-		rotation -= ROTATION_AMOUNT * delta
+		rotation -= ROTATION_AMOUNT
 		
 	if Input.is_action_pressed("move_forward"):
 		velocity = Vector2(1,0).rotated(rotation) * SPEED

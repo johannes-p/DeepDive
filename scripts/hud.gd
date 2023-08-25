@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+signal player_died(reason, depth, collected_trash)
+
 var oxygen_level = 100
 var oxygen_timer = Timer.new()
 
@@ -8,6 +10,9 @@ var blackout_timer = Timer.new()
 var blackout_sequence_complete = false
 
 var health : int = 3
+var collected_trash : int = 0
+
+var player_depth : String 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,7 +28,8 @@ func _ready():
 	add_child(blackout_timer)
 
 func _on_player_update_depth(depth):
-	$DepthIndicator/DepthLabel.text = str(depth) + 'm'
+	player_depth = str(depth)
+	$DepthIndicator/DepthLabel.text = player_depth + 'm'
 	
 func decrease_oxygen():
 	oxygen_level = oxygen_level - 5 if oxygen_level > 0 else 0
@@ -36,9 +42,8 @@ func blackout():
 	blackout_amount+=0.05
 	$BlackoutRect.color = Color(0,0,0,blackout_amount)
 	
-	if blackout_amount == 1.0:
-		# TODO: end game
-		pass
+	if blackout_amount >= 1.0:
+		emit_signal("player_died", "oxygen", player_depth, collected_trash)
 	
 func collected_oxygen():
 	reset_blackout()
@@ -58,14 +63,13 @@ func remove_heart():
 	health-=1
 	
 	if health < 1:
-		#TODO: end game
-		pass
+		emit_signal("player_died", "health", player_depth, collected_trash)
 
 	$healthIndicator/heart2.visible = health >= 2
 	$healthIndicator/heart3.visible = health >= 3
-	
-	
-	pass
+
+func pickup_trash():
+	collected_trash+=1
 
 func reset():
 	reset_blackout()
@@ -73,8 +77,10 @@ func reset():
 	# reset health
 	health = 3
 	for heart in $healthIndicator.get_children():
-		heart.visibile = true
+		heart.visible = true
 	
 	# reset oxygen
 	oxygen_level = 100
 	$OxygenIndicator/OxygenMeter.value = 100
+	
+	collected_trash = 0

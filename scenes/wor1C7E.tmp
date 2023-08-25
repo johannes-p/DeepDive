@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://6e6jgcbcoh7l"]
+[gd_scene load_steps=16 format=3 uid="uid://6e6jgcbcoh7l"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_o435r"]
 [ext_resource type="Texture2D" uid="uid://dlt4vqftbbolx" path="res://assets/terrain/wall (2).png" id="2_q64b0"]
@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://bjbmr4pi5me33" path="res://assets/terrain/wall.png" id="7_wylrb"]
 [ext_resource type="PackedScene" uid="uid://cp0s2hx1k0rhu" path="res://scenes/terrain.tscn" id="8_pe0mt"]
 [ext_resource type="PackedScene" uid="uid://bngd583qvtj23" path="res://scenes/player.tscn" id="9_5ndwm"]
-[ext_resource type="PackedScene" uid="uid://b4x1mrfuguh2c" path="res://scenes/trash.tscn" id="10_jubl2"]
 [ext_resource type="PackedScene" uid="uid://b177wpeg11v3v" path="res://scenes/hud.tscn" id="10_o3trg"]
 [ext_resource type="PackedScene" uid="uid://d2jh0vnincsf8" path="res://scenes/oxygen.tscn" id="11_bpcbl"]
 [ext_resource type="Texture2D" uid="uid://b4y0fkicf73qc" path="res://assets/ui/gameover_overlay.png" id="12_3e7ud"]
@@ -22,7 +21,6 @@ script = ExtResource("1_o435r")
 oxygen_scene = ExtResource("11_bpcbl")
 terrain_tiles = Array[CompressedTexture2D]([ExtResource("2_q64b0"), ExtResource("3_xg5gd"), ExtResource("4_bh2cu"), ExtResource("5_21j6d"), ExtResource("6_11yf2"), ExtResource("7_wylrb")])
 terrain_scene = ExtResource("8_pe0mt")
-trash_scene = ExtResource("10_jubl2")
 
 [node name="starting_position" type="Node2D" parent="."]
 position = Vector2(960, 540)
@@ -40,12 +38,6 @@ position = Vector2(125, 270)
 [node name="terrain_start_r" type="Node2D" parent="."]
 position = Vector2(1795, 270)
 
-[node name="trashTimer" type="Timer" parent="."]
-wait_time = 2.0
-autostart = true
-
-[node name="trash_root" type="Node2D" parent="."]
-
 [node name="oxygenTimer" type="Timer" parent="."]
 wait_time = 5.0
 autostart = true
@@ -53,8 +45,6 @@ autostart = true
 [node name="oxygen_root" type="Node2D" parent="."]
 
 [node name="fish_root" type="Node2D" parent="."]
-
-[node name="terrain_root" type="Node2D" parent="."]
 
 [node name="hud" parent="." instance=ExtResource("10_o3trg")]
 
@@ -128,10 +118,8 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 64
 text = "
 "
-horizontal_alignment = 1
 
 [connection signal="update_depth" from="player" to="hud" method="_on_player_update_depth"]
-[connection signal="timeout" from="trashTimer" to="." method="_on_trash_timer_timeout"]
 [connection signal="timeout" from="oxygenTimer" to="." method="_on_oxygen_timer_timeout"]
 [connection signal="player_died" from="hud" to="." method="gameover"]
 [connection signal="pressed" from="gameover_screen/RetryButton" to="." method="reset"]

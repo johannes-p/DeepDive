@@ -7,7 +7,7 @@ var timeout_duration = 5
 @export var spawn_probabilities : Array[int]
 
 var in_timeout = false
-@onready var fish_root = get_node('../fish_root')
+@onready var fish_root = get_node('../../fish_root')
 
 #TODO: check if visible on screen before spawning
 

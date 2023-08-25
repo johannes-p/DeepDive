@@ -1,0 +1,21 @@
+[gd_scene load_steps=7 format=3 uid="uid://b4x1mrfuguh2c"]
+
+[ext_resource type="Script" path="res://scripts/trash.gd" id="1_i0hqv"]
+[ext_resource type="Texture2D" uid="uid://cnjdeekhm507b" path="res://assets/collectibles/apple.png" id="2_wptfh"]
+[ext_resource type="Texture2D" uid="uid://dsukv87sxffpm" path="res://assets/collectibles/big_can.png" id="3_gog7b"]
+[ext_resource type="Texture2D" uid="uid://kl74mxidmlo3" path="res://assets/collectibles/small_can.png" id="4_aajds"]
+[ext_resource type="Texture2D" uid="uid://d0csv03agaa1d" path="res://assets/collectibles/soda_can.png" id="5_anifw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sivlg"]
+radius = 32.0
+
+[node name="trash" type="Area2D"]
+script = ExtResource("1_i0hqv")
+trash_textures = Array[CompressedTexture2D]([ExtResource("2_wptfh"), ExtResource("3_gog7b"), ExtResource("4_aajds"), ExtResource("5_anifw")])
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_sivlg")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
