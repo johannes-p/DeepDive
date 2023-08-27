@@ -1,16 +1,18 @@
-[gd_scene load_steps=18 format=3 uid="uid://bngd583qvtj23"]
+[gd_scene load_steps=20 format=3 uid="uid://bngd583qvtj23"]
 
 [ext_resource type="Texture2D" uid="uid://bn2q7vu7wek4k" path="res://assets/player/arm_l.png" id="1_b0wee"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_ws1qp"]
 [ext_resource type="Texture2D" uid="uid://vu3wr57lgxy4" path="res://assets/player/leg_l.png" id="2_dhj4v"]
+[ext_resource type="Texture2D" uid="uid://dl45ib3jvnljq" path="res://assets/player/Vector 25.png" id="2_ejdwj"]
 [ext_resource type="Texture2D" uid="uid://bbyb0dgn2evw4" path="res://assets/player/Group 34.png" id="2_lap3l"]
 [ext_resource type="Texture2D" uid="uid://clp8ku0mxkc3x" path="res://assets/player/Group 35.png" id="3_xpc8l"]
 [ext_resource type="Texture2D" uid="uid://b57en88jnap41" path="res://assets/player/Vector 23.png" id="4_ug80q"]
 [ext_resource type="Texture2D" uid="uid://bdurmjrf6bnbg" path="res://assets/player/arm_r.png" id="5_dtack"]
+[ext_resource type="Texture2D" uid="uid://blt2hn1q3bugi" path="res://assets/player/Vector 26.png" id="8_ysp0p"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oq4ow"]
-radius = 99.9841
-height = 478.162
+radius = 85.5767
+height = 446.293
 
 [sub_resource type="Animation" id="Animation_pvt6t"]
 resource_name = "idle"
@@ -153,8 +155,14 @@ scale = Vector2(0.35, 0.35)
 script = ExtResource("1_ws1qp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-rotation = 1.51413
+position = Vector2(2.38419e-07, -2.85714)
+rotation = 1.55769
 shape = SubResource("CapsuleShape2D_oq4ow")
+
+[node name="oxygen_tank" type="Sprite2D" parent="."]
+position = Vector2(-8.57143, -57.1429)
+rotation = 0.857935
+texture = ExtResource("2_ejdwj")
 
 [node name="torso" type="Node2D" parent="."]
 rotation = 0.873707
@@ -195,6 +203,12 @@ position = Vector2(41, -50.5)
 
 [node name="Sprite2D" type="Sprite2D" parent="torso/head/mask"]
 texture = ExtResource("4_ug80q")
+
+[node name="tube" type="Sprite2D" parent="torso"]
+position = Vector2(74.8011, -84.8484)
+rotation = -0.153511
+scale = Vector2(1.25079, 1)
+texture = ExtResource("8_ysp0p")
 
 [node name="arm_r" type="Node2D" parent="torso"]
 position = Vector2(9, -98)

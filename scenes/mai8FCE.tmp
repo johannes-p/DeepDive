@@ -1,0 +1,132 @@
+[gd_scene load_steps=10 format=3 uid="uid://bdgj0c7d4fkj8"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_gujkr"]
+[ext_resource type="Texture2D" uid="uid://qgqtf7yecmqs" path="res://assets/ui/mainmenu_layer1.png" id="1_sukye"]
+[ext_resource type="Texture2D" uid="uid://dfi1pkucnqgk2" path="res://assets/submarine.png" id="2_3jyya"]
+[ext_resource type="Texture2D" uid="uid://ugd53qdlkwp3" path="res://assets/ui/mainmenu_layer2.png" id="3_iacwj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tlv7t"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_thqtj"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Theme" id="Theme_iskbc"]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(0.47451, 0.47451, 0.47451, 1)
+Button/font_sizes/font_size = 32
+Button/styles/hover = SubResource("StyleBoxFlat_tlv7t")
+Button/styles/normal = SubResource("StyleBoxFlat_thqtj")
+
+[sub_resource type="Animation" id="Animation_jhkrm"]
+resource_name = "float"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("submarine:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1539, 843), Vector2(1520, 825), Vector2(1532.28, 845)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7i77n"]
+_data = {
+"float": SubResource("Animation_jhkrm")
+}
+
+[node name="mainMenu" type="Node2D"]
+script = ExtResource("1_gujkr")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.72549, 0.796078, 0.811765, 1)
+
+[node name="Layer1" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("1_sukye")
+
+[node name="submarine" type="Sprite2D" parent="."]
+position = Vector2(1536.9, 843.625)
+texture = ExtResource("2_3jyya")
+
+[node name="Layer2" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("3_iacwj")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="playButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -97.0
+offset_top = -158.0
+offset_right = 97.0
+offset_bottom = -101.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_iskbc")
+text = "Play"
+
+[node name="oxygen_included_playButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -159.0
+offset_top = -37.0
+offset_right = 159.0
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_iskbc")
+theme_override_font_sizes/font_size = 24
+text = "Play 
+(oxygen included mode)"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "float"
+libraries = {
+"": SubResource("AnimationLibrary_7i77n")
+}
+
+[connection signal="pressed" from="Control/playButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Control/oxygen_included_playButton" to="." method="_on_oxygen_included_play_button_pressed"]

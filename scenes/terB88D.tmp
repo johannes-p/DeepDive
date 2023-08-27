@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://cp0s2hx1k0rhu"]
+
+[ext_resource type="Script" path="res://scripts/fish_spawner.gd" id="1_wbeq5"]
+[ext_resource type="PackedScene" uid="uid://ce06qwhv7nmkn" path="res://scenes/fish.tscn" id="2_bosr2"]
+[ext_resource type="PackedScene" uid="uid://bv3s4tlfmlf1g" path="res://scenes/ram_fish.tscn" id="2_hai2s"]
+
+[node name="Sprite2D" type="Sprite2D"]
+script = ExtResource("1_wbeq5")
+fish_scenes = Array[PackedScene]([ExtResource("2_hai2s"), ExtResource("2_bosr2")])
+spawn_probabilities = Array[int]([5, 50])

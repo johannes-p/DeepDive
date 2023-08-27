@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://6e6jgcbcoh7l"]
+[gd_scene load_steps=27 format=3 uid="uid://6e6jgcbcoh7l"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_o435r"]
 [ext_resource type="Texture2D" uid="uid://dlt4vqftbbolx" path="res://assets/terrain/wall (2).png" id="2_q64b0"]
@@ -13,9 +13,19 @@
 [ext_resource type="PackedScene" uid="uid://b177wpeg11v3v" path="res://scenes/hud.tscn" id="10_o3trg"]
 [ext_resource type="PackedScene" uid="uid://d2jh0vnincsf8" path="res://scenes/oxygen.tscn" id="11_bpcbl"]
 [ext_resource type="Texture2D" uid="uid://b4y0fkicf73qc" path="res://assets/ui/gameover_overlay.png" id="12_3e7ud"]
+[ext_resource type="AudioStream" uid="uid://dtf3eswkkjldr" path="res://assets/audio/music.wav" id="12_fxict"]
+[ext_resource type="Texture2D" uid="uid://dmuhlvfd805jc" path="res://assets/water_overlay.png" id="12_p62g4"]
+[ext_resource type="Texture2D" uid="uid://ugd53qdlkwp3" path="res://assets/ui/mainmenu_layer2.png" id="12_psobu"]
 [ext_resource type="Texture2D" uid="uid://bpmh0xomahgqh" path="res://assets/ui/reset_button.png" id="13_hpjl4"]
 [ext_resource type="Texture2D" uid="uid://w1beywi70kyt" path="res://assets/ui/reset_button_pressed.png" id="14_qedt4"]
 [ext_resource type="Texture2D" uid="uid://heqjrmacgfp0" path="res://assets/ui/reset_button_hover.png" id="15_ittpp"]
+[ext_resource type="AudioStream" uid="uid://bvqojf5v8rpuo" path="res://assets/audio/pop.wav" id="18_eocg1"]
+[ext_resource type="AudioStream" uid="uid://dbnik4qv3dao8" path="res://assets/audio/bubble.ogg" id="18_tm44s"]
+[ext_resource type="Texture2D" uid="uid://7l51o8pv46v1" path="res://assets/ui/back_button.png" id="19_vggrp"]
+[ext_resource type="Texture2D" uid="uid://c5040s2oaeyfm" path="res://assets/ui/back_button_pressed.png" id="20_aagwa"]
+[ext_resource type="Texture2D" uid="uid://bekeygey4yer1" path="res://assets/ui/back_button_hover.png" id="21_lgxf7"]
+[ext_resource type="AudioStream" uid="uid://bxb8mfoer2qbh" path="res://assets/audio/crunch.wav" id="22_24jx2"]
+[ext_resource type="AudioStream" uid="uid://nv2udx7gwxac" path="res://assets/audio/damage_taken.wav" id="26_m3je2"]
 
 [node name="world" type="Node2D"]
 script = ExtResource("1_o435r")
@@ -23,6 +33,11 @@ oxygen_scene = ExtResource("11_bpcbl")
 terrain_tiles = Array[CompressedTexture2D]([ExtResource("2_q64b0"), ExtResource("3_xg5gd"), ExtResource("4_bh2cu"), ExtResource("5_21j6d"), ExtResource("6_11yf2"), ExtResource("7_wylrb")])
 terrain_scene = ExtResource("8_pe0mt")
 trash_scene = ExtResource("10_jubl2")
+
+[node name="sky" type="ColorRect" parent="."]
+offset_top = -1080.0
+offset_right = 1920.0
+color = Color(0.945098, 0.988235, 1, 1)
 
 [node name="starting_position" type="Node2D" parent="."]
 position = Vector2(960, 540)
@@ -33,6 +48,11 @@ camera_node = NodePath("../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(960, 540)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Camera2D"]
+remote_path = NodePath("../../water_overlay")
+update_rotation = false
+update_scale = false
 
 [node name="terrain_start_l" type="Node2D" parent="."]
 position = Vector2(125, 270)
@@ -55,6 +75,15 @@ autostart = true
 [node name="fish_root" type="Node2D" parent="."]
 
 [node name="terrain_root" type="Node2D" parent="."]
+
+[node name="water_overlay" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("12_p62g4")
+
+[node name="waves" type="TextureRect" parent="."]
+offset_top = -1080.0
+offset_right = 1920.0
+texture = ExtResource("12_psobu")
 
 [node name="hud" parent="." instance=ExtResource("10_o3trg")]
 
@@ -130,8 +159,38 @@ text = "
 "
 horizontal_alignment = 1
 
+[node name="TextureButton" type="TextureButton" parent="gameover_screen"]
+offset_left = 580.0
+offset_top = 246.0
+offset_right = 680.0
+offset_bottom = 346.0
+texture_normal = ExtResource("19_vggrp")
+texture_pressed = ExtResource("20_aagwa")
+texture_hover = ExtResource("21_lgxf7")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_fxict")
+volume_db = -5.0
+autoplay = true
+
+[node name="PopSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_eocg1")
+volume_db = -15.0
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_tm44s")
+
+[node name="CrunchSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("22_24jx2")
+volume_db = -10.0
+
+[node name="DamageSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("26_m3je2")
+volume_db = -5.0
+
 [connection signal="update_depth" from="player" to="hud" method="_on_player_update_depth"]
 [connection signal="timeout" from="trashTimer" to="." method="_on_trash_timer_timeout"]
 [connection signal="timeout" from="oxygenTimer" to="." method="_on_oxygen_timer_timeout"]
 [connection signal="player_died" from="hud" to="." method="gameover"]
 [connection signal="pressed" from="gameover_screen/RetryButton" to="." method="reset"]
+[connection signal="pressed" from="gameover_screen/TextureButton" to="." method="main_menu"]

@@ -11,12 +11,23 @@ extends Node2D
 
 var terrain_offset = 0
 
+@onready var gamemode = get_node("/root/Options").mode
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	if gamemode == "oxygen_included":
+		print("Oxygen included")
+		pass
+		# change player appearance
+		# disable oxygenTimer
+	
 	randomize()
 	
 	for index in range(terrain_depth):
 		place_terrain(index)
+	
+	$AudioStreamPlayer.play()
 
 func place_terrain(index):
 	# instanciate terrain 'object'
@@ -52,6 +63,9 @@ func _process(delta):
 			place_terrain(terrain_offset)
 
 func _on_oxygen_timer_timeout():
+	if gamemode == "oxygen_included":
+		return
+	
 	var oxygen_spawn_location = Vector2()
 	oxygen_spawn_location.y = $player.position.y + 600
 	oxygen_spawn_location.x = randi_range(192, 1728)
@@ -76,6 +90,7 @@ func gameover(reason, depth, collected_trash):
 	
 	$trashTimer.stop()
 	$oxygenTimer.stop()
+	$AudioStreamPlayer.stop()
 	
 	delete_children($fish_root)
 	delete_children($oxygen_root)
@@ -98,6 +113,8 @@ func gameover(reason, depth, collected_trash):
 	$gameover_screen/RichTextLabel.text = "[center]You [color=teal]" + reason_text + "\n" + str(depth) + "m[/color] below sea level[/center]" 
 	$gameover_screen/TrashLabel.text = str(collected_trash)
 	
+	$DeathSound.play()
+	
 	$gameover_screen.show()
 
 func reset():
@@ -107,6 +124,8 @@ func reset():
 	$player.rotation = 0
 	$Camera2D.position.y = $player.position.y
 	
+	$AudioStreamPlayer.play()
+	
 	$gameover_screen.hide()
 	$player.set_process(true)
 	$terrain_root.set_process(true)
@@ -114,7 +133,10 @@ func reset():
 	$oxygenTimer.start()
 	$trashTimer.start()
 	
+func main_menu():
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	
 func delete_children(node):
 	for n in node.get_children():
-		node.remove_child(n)
+		node.call_deferred("remove_child", n)
 		n.queue_free()

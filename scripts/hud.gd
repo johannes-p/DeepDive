@@ -2,20 +2,32 @@ extends CanvasLayer
 
 signal player_died(reason, depth, collected_trash)
 
-var oxygen_level = 100
-var oxygen_timer = Timer.new()
+var oxygen_level : int = 100
+var oxygen_timer : Timer = Timer.new()
 
-var blackout_amount = 0.0
+var blackout_amount : float = 0.0
 var blackout_timer = Timer.new()
 var blackout_sequence_complete = false
+
+var damage_cooldown : int = 2
+var cooldown : bool = false
 
 var health : int = 3
 var collected_trash : int = 0
 
 var player_depth : String 
 
+@onready var options = get_node("/root/Options")
+var gamemode : String
+
+@onready var damage_sound = get_node("../DamageSound")
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	gamemode = options.mode
+	if gamemode == "oxygen_included":
+		return
+		
 	oxygen_timer.connect("timeout", decrease_oxygen)
 	oxygen_timer.wait_time = 1.5
 	oxygen_timer.one_shot = false
@@ -28,6 +40,10 @@ func _ready():
 	add_child(blackout_timer)
 
 func _on_player_update_depth(depth):
+	
+	# increase difficulty depending on depth
+	options.difficulty = (0.1  * (depth / 30))
+	
 	player_depth = str(depth)
 	$DepthIndicator/DepthLabel.text = player_depth + 'm'
 	
@@ -56,17 +72,27 @@ func reset_blackout():
 	blackout_amount = 0.0
 	$BlackoutRect.color = Color(0,0,0,blackout_amount)
 	blackout_timer.stop()
+	
 
 func remove_heart():
-	#TODO: timeout
+	if cooldown == true:
+		return
 	
+	cooldown = true
 	health-=1
 	
 	if health < 1:
 		emit_signal("player_died", "health", player_depth, collected_trash)
+		cooldown = false
+		return
+
+	damage_sound.play()
 
 	$healthIndicator/heart2.visible = health >= 2
 	$healthIndicator/heart3.visible = health >= 3
+	
+	await get_tree().create_timer(damage_cooldown).timeout
+	cooldown = false
 
 func pickup_trash():
 	collected_trash+=1
@@ -84,3 +110,5 @@ func reset():
 	$OxygenIndicator/OxygenMeter.value = 100
 	
 	collected_trash = 0
+	
+	options.difficulty = 0.1

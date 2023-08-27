@@ -13,6 +13,12 @@ const FRICTION : float = 0.015
 
 var recently_got_oxygen = false
 
+func _ready():
+	var gamemode = get_node("/root/Options").mode
+	if gamemode == "oxygen_included":
+		return
+	$oxygen_tank.hide()
+	$torso/tube.hide()
 
 func _physics_process(delta):
 	if Input.is_action_pressed("move_right"):
